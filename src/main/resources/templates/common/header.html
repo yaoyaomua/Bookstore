@@ -1,0 +1,128 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.w3.org/1998/xthml">
+<head th:fragment="common-header">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Alex`s Bookstore</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	crossorigin="anonymous"></script>
+<link href="/css/style.css" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.css"/>
+ <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.js"></script>
+<script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+
+
+</head>
+<body>
+	<div th:fragment="navbar">
+		<!-- Navigation -->
+		<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" th:href="@{/}">Alex's Bookstore</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><a class="nav-link" href="#">Home
+							<span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> BOOKS </a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" th:href="@{/bookshelf}">Browse the bookshelf</a> <a
+								class="dropdown-item" href="#">Store hours &#38; Directions</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="#">FAQ</a>
+						</div></li>
+				</ul>
+				<form class="form-inline my-2 my-lg-0" th:action="@{/searchBook}" method="post">
+					<input class="form-control mr-sm-2" type="search" name="keyword"
+						placeholder="Search Book Title" aria-label="Search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+				</form>
+
+				<ul class="nav navbar-nav navbar-right">
+					<li class="nav-item"><a class="nav-link" th:href="@{/shoppingCart/cart}">SHOPPING
+							CART</a></li>
+					<li class="nav-item"><a class="nav-link"
+						sec:authorize="isAnonymous()" th:href="@{/login}">MY ACCOUNT</a></li>
+					<li class="nav-item"><a class="nav-link"
+						sec:authorize="isAuthenticated()" th:href="@{/myProfile}">MY
+							ACCOUNT</a></li>
+					<li class="nav-item"><a class="nav-link"
+						sec:authorize="isAuthenticated()" th:href="@{/logout}">LOGOUT</a></li>
+				</ul>
+			</div>
+		</nav>
+		<br> <br> <br>
+	</div>
+	
+	<div th:fragment="footer">
+		<br><br>
+		<footer>
+			<div class="row">
+				<div class="col-3 footerleft">
+					<a th:href="@{/}"><img class="img-fluid" src="/images/logo.png" style="width:200px;"></a>
+					<p>Alex's Book Store. <br>Serving our customers with the best. </p>
+				</div>
+				
+				<div class="col-3 paddingtop-bottom">
+					<h6 class="heading7">CONTACT</h6>
+					<ul class="post">
+						<p><i class="fa fa-map-pin"></i>Street 1, No. 63<br> City Pecica, County Arad</p>
+						<p><i class="fa fa-phone"></i>Phone: 0741 141 445</p>
+						<p><i class="fa fa-envelope"></i> E-mail: alexborza860@yahoo.com</p>
+					</ul>
+				</div>
+				
+				<div class="col-3 paddingtop-bottom">
+					<h6 class="heading7">LINKS</h6>
+					<ul class="footer">
+						<li><a href="#" style="color: #808080;">Privacy Policy</a></li>
+						<li><a href="#" style="color: #808080;">Terms &#38; Conditions</a></li>
+						<li><a href="#" style="color: #808080;">Frequently Ask Questions</a></li>
+					</ul>
+				</div>
+				
+				<div class="col-3 paddingtop-bottom">
+					<h6 class="heading7">STORE HOURS</h6>
+					<div class="post">
+						<p>Monday - Saturday: 9am - 11pm</p>
+						<p>Sunday: 10am - 10pm</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+		
+		<div class="copyright">
+			<div class="col-6">
+				<p> 2017 - All Rights Reserved</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

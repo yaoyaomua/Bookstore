@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+<head th:replace="common/header :: common-header" />
+
+<script>
+	$(document).ready(function() {
+		$('#bookList').DataTable({
+			"lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+			"ordering":false,
+			stateSave:true
+		});
+		
+		$("#bookList").on('page.dt', function(){
+			$('html, body').animate({
+				scrollTop: $('#bookList').offset().top
+			}, 200);
+		});
+	});
+</script>
+
+<body>
+	<div th:replace="common/header :: navbar" />
+
+	<div class="container">
+		<div class="row" style="margin-bottom: -100px;">
+			<div class="col-8">
+				<h2 class="section-headline">
+					<span
+						th:text="${user} ? ${#strings.toUpperCase(user.username)} : 'ALL Books'"></span>
+				</h2>
+			</div>
+
+			<div class="col-4">
+				<img src="/images/logo.png" class="img-fluid rounded-circle"
+					alt="Responsive image" />
+			</div>
+		</div>
+
+		<hr
+			style="position: absolute; width: 85%; height: 6px; background-color: #333; z-index: -1; margin-top: -15px;" />
+		<img class="img-fluid" alt="Responsive image" src="/images/wood.png"
+			style="margin-top: 80px;" />
+
+		<div class="row" style="margin-top: 60px;">
+			<div class="col-3">
+				<h3><label for="category">Category</label></h3>
+				<div class="list-group" id="category">
+					<a th:href="@{/bookshelf(category='all')}" th:classappend="${activeAll} ? 'active'" class="list-group-item">All</a>
+					<a th:href="@{/searchByCategory(category='Management')}" th:classappend="${activeManagement} ? 'active'" class="list-group-item">Management</a>
+					<a th:href="@{/searchByCategory(category='Fiction')}" th:classappend="${activeFiction} ? 'active'" class="list-group-item">Fiction</a>
+					<a th:href="@{/searchByCategory(category='History')}" th:classappend="${activeHistory} ? 'active'" class="list-group-item">History</a>
+					<a th:href="@{/searchByCategory(category='Programming')}" th:classappend="${activeProgramming} ? 'active'" class="list-group-item">Programming</a>
+					<a th:href="@{/searchByCategory(category='Arts &amp; Literature')}" th:classappend="${activeArtsLiterature} ? 'active'" class="list-group-item">Arts &amp; Literature</a>
+				</div>
+			</div>
+		
+			<div
+				class="col-9">
+				<div th:if="${emptyList}">
+					<h5 style="font-style: italic;">Oops, no result is found. Try
+						something else or try again later.</h5>
+				</div>
+				<table border="0" id="bookList">
+					<thead>
+						<tr>
+							<th></th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr class="book-item" data-th-each="book : ${bookList}">
+							<td style="padding: 15px;">
+								<div th:if="${book != null}">
+									<div class="row">
+										<div class="col-3">
+											<a th:href="@{/bookDetail?id=} + ${book.id}"><img class="img-fluid shelf-book"
+												th:src="#{adminPath} + @{/images/book/} + ${book.id} + '.png'" style= /></a>
+										</div>
+
+										<div class="col-9">
+											<a th:href="@{/bookDetail?id=} + ${book.id}"><h4 th:text="${book.title}"></h4></a>
+											<span th:text="${book.publicationDate}"></span> <span
+												th:text="${book.author}"></span>
+												<a th:href="@{/bookDetail?id=} + ${book.id}"><span th:text="${#strings.capitalize(book.format)}"></span></a>
+												<span
+												th:text="${book.numberOfPages}"></span><span> pages</span><br> 
+												<a th:href="@{/bookDetail?id=} + ${book.id}"><span
+												style="font-size: x-large; color: #db3208;">$<span
+												th:text="${#numbers.formatDecimal(book.ourPrice, 0, 'COMMA', 2, 'POINT')}"></span>
+											</span></a> 
+											<span style="text-decoration: line-through; color: #db3208;">$<span
+												th:text="${#numbers.formatDecimal(book.listPrice, 0, 'COMMA', 2, 'POINT')}"></span>
+											</span>
+
+											<p th:utext="${#strings.abbreviate(book.description, 300)}"></p>
+
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- end of container -->
+<div th:replace="common/header :: footer" />
+</body>
+</html>
